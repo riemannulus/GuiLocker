@@ -2,7 +2,7 @@
 GuiLocker is DisLocker wrapper with GUI
 
 ## Usage
-1. install python-tk
+1. install python-tk, dislocker
 2. launch main.py
 3. inject usb
 
