@@ -12,3 +12,7 @@ GuiLocker is DisLocker wrapper with GUI
 ## TODO:
 - Make daemon
 - Exception handling(incorrect password)
+- Packaging
+- Replace from 'shlex' to hard-coded
+- Support local drive
+- Management current connected drive
