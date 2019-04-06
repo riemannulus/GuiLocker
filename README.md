@@ -2,7 +2,7 @@
 GuiLocker is DisLocker wrapper with GUI
 
 ## Demo
-[![Watch the video](https://img.youtube.com/vi/ltqnQjCR27A/maxresdefault.jpg)](https://youtu.be/ltqnQjCR27A)
+[![Watch the video](https://img.youtube.com/vi/IPeGfMwMiRg/maxresdefault.jpg)](https://youtu.be/IPeGfMwMiRg)
 
 ## Usage
 1. install python-tk, dislocker
