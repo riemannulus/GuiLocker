@@ -1,30 +1,14 @@
 import os
-import sys
 import shlex
 import logging
 from time import sleep
-from subprocess import call, PIPE, Popen
+from subprocess import PIPE, Popen
 
 from tkinter import *
 
-#  class GuiApp(tk.Tk):
-#  self.__password = ""
-#
-#  def __init__(self):
-#      tk.Tk.__init__(self)
-#      self.geometry('300x250')
-#      self.label = tk.Label(self, text="Input bitlocker password")
-#      self.entry = tk.Entry(self)
-#      self.button = tk.Button(self, text="Unlock", command=self.on_button)
-#      self.label.pack(side=tk.LEFT)
-#      self.entry.pack(side=tk.LEFT)
-#      self.button.pack(side=tk.LEFT)
-#
-#  def on_button(self):
-#      self.__password = self.entry.get()
-#  self.destroy()
 
 class GuiLocker():
+    # TODO: refactoring
     bitlocker_path = "/media/bitlocker"
 
     def __init__(self):
@@ -87,7 +71,6 @@ class GuiLocker():
         return disk_model
 
     def __get_mount_path(self, device):
-        device_path = self.__get_device_path(device)
         disk_model = self.__get_device_model_name(device)
         path = "/media/" + disk_model
         return path
@@ -111,10 +94,10 @@ class GuiLocker():
         mkdir_cmd = f"mkdir -p {mount_path} {self.bitlocker_path}"
         mount_cmd = f"mount -r -o loop {self.bitlocker_path}/dislocker-file {mount_path}"
 
-        dis_proc = Popen(shlex.split(dislocker_cmd))
-        mkdir_proc = Popen(shlex.split(mkdir_cmd))
+        Popen(shlex.split(dislocker_cmd))
+        Popen(shlex.split(mkdir_cmd))
         sleep(1)
-        mount_proc = Popen(shlex.split(mount_cmd))
+        Popen(shlex.split(mount_cmd))
         sleep(1)
 
         if self.__is_mounted(device):
@@ -127,12 +110,15 @@ class GuiLocker():
     def umount(self, device):
         mount_path = self.__get_mount_path(device)
         device_path = self.__get_device_path(device)
-        umount_cmd = f"umount {mount_path} {self.bitlocker_path}"
+        bitlocker_umount_cmd = f"umount {mount_path} {self.bitlocker_path}"
+        device_umount_cmd = f"umount {mount_path} {device_path}"
         rm_cmd = f"rm -rf {mount_path} {self.bitlocker_path}"
 
-        p = Popen(shlex.split(umount_cmd))
-        sleep(1)
-        p2 = Popen(shlex.split(rm_cmd))
+        Popen(shlex.split(device_umount_cmd))
+        sleep(0.5)
+        Popen(shlex.split(bitlocker_umount_cmd))
+        sleep(0.5)
+        Popen(shlex.split(rm_cmd))
 
         if self.__is_mounted(device):
             logging.debug('Unmount failed')
@@ -153,12 +139,15 @@ class GuiLocker():
             self._password = pwentry.get()
             root.destroy()
 
-        Label(root, text = "Enter the device password: ").pack(side='top')
+        Label(root, text="Enter the device password: ").pack(side='top')
         pwentry.pack(side='left')
         Button(root, command=on_unlock_click, text = 'Unlock').pack(side='left')
 
         root.mainloop()
         return self._password
+
+    def get_mounted_device(self):
+        return self.__mounted_device
 
     def run(self):
         logging.debug('Start Run')
@@ -178,7 +167,3 @@ class GuiLocker():
                     self.mount(d, password)
 
             sleep(1)
-
-if __name__ == "__main__":
-    g = GuiLocker()
-    g.run()
