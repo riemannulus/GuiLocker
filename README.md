@@ -4,15 +4,15 @@ GuiLocker is DisLocker wrapper with GUI
 ## Demo
 [![Watch the video](https://img.youtube.com/vi/IPeGfMwMiRg/maxresdefault.jpg)](https://youtu.be/IPeGfMwMiRg)
 
-## Usage
+## Installation
 1. install python-tk, dislocker
-2. launch main.py
-3. inject usb
+2. sudo -U pip install guilocker
+
+## Usage
+- Start GuiLocker: sudo guilocker start
+- Unmount Device: sudo guilocker umount
 
 ## TODO:
-- Make daemon
-- Exception handling(incorrect password)
-- Packaging
 - Replace from 'shlex' to hard-coded
 - Support local drive
 - Management current connected drive
